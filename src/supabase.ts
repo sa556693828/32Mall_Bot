@@ -117,44 +117,44 @@ export async function getOrCreateUser({
     logger.error('Error creating user:', error);
   }
 }
-export async function getOrCreateChatUser(chatId: number, userId: number) {
-  try {
-    const { data: existingUser, error: userError } = await supabase
-      .from(tableMap.chat_members)
-      .select('*')
-      .eq('chat_id', chatId)
-      .eq('user_id', userId);
+// export async function getOrCreateChatUser(chatId: number, userId: number) {
+//   try {
+//     const { data: existingUser, error: userError } = await supabase
+//       .from(tableMap.chat_members)
+//       .select('*')
+//       .eq('chat_id', chatId)
+//       .eq('user_id', userId);
 
-    if (userError) {
-      throw userError;
-    }
+//     if (userError) {
+//       throw userError;
+//     }
 
-    if (existingUser.length > 0) {
-      return existingUser;
-    } else {
-      const { error: newUserError } = await supabase
-        .from(tableMap.chat_members)
-        .insert([{ chat_id: chatId, user_id: userId }])
-        .single();
-      console.log(newUserError);
-      if (newUserError) {
-        throw newUserError;
-      }
-      const { data: newUserRows, error: newUserRowsError } = await supabase
-        .from('chat_members')
-        .select('*')
-        .eq('user_id', userId)
-        .single();
+//     if (existingUser.length > 0) {
+//       return existingUser;
+//     } else {
+//       const { error: newUserError } = await supabase
+//         .from(tableMap.chat_members)
+//         .insert([{ chat_id: chatId, user_id: userId }])
+//         .single();
+//       console.log(newUserError);
+//       if (newUserError) {
+//         throw newUserError;
+//       }
+//       const { data: newUserRows, error: newUserRowsError } = await supabase
+//         .from('chat_members')
+//         .select('*')
+//         .eq('user_id', userId)
+//         .single();
 
-      if (newUserRowsError) {
-        throw newUserRowsError;
-      }
-      return newUserRows;
-    }
-  } catch (error) {
-    logger.error('Error creating user:', error);
-  }
-}
+//       if (newUserRowsError) {
+//         throw newUserRowsError;
+//       }
+//       return newUserRows;
+//     }
+//   } catch (error) {
+//     logger.error('Error creating user:', error);
+//   }
+// }
 export async function inviteFromUser(userId: number, inviteFromId: number) {
   try {
     const { data, error } = await supabase
