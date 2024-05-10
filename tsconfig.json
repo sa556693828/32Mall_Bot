@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "outDir": "./built",
+    "allowJs": true,
+    "target": "es2020",
+    "module": "nodenext",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "paths": {
+      "@/*": ["./src/*"],
+    },
+  },
+  "include": ["./src/**/*", "./test/**/*"],
+
+  "ts-node": {
+    "require": ["tsconfig-paths/register"],
+  },
+}
