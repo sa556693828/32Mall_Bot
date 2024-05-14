@@ -80,7 +80,7 @@ export async function getOrCreateUser({
     const { data: existingUser, error: userError } = await supabase
       .from(tableMap.users)
       .select('*')
-      .eq('user_id', userId);
+      .eq('user_tgid', userId);
 
     if (userError) {
       throw userError;
@@ -92,7 +92,7 @@ export async function getOrCreateUser({
         .from(tableMap.users)
         .insert([
           {
-            user_id: userId,
+            user_tgid: userId,
             user_name: userName ? userName : undefined,
             first_name: firstName ? firstName : undefined,
             last_name: lastName ? lastName : undefined,

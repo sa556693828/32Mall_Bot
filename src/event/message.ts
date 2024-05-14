@@ -30,12 +30,12 @@ const message = () => async (ctx: Context) => {
   // console.log(chatFromId);
   // console.log(userId);
 
-  // await getOrCreateUser({
-  //   userId: userId as number,
-  //   userName: userName ? userName : '',
-  //   firstName: firstName ? firstName : '',
-  //   lastName: lastName ? lastName : '',
-  // });
+  await getOrCreateUser({
+    userId: userId as number,
+    userName: userName ? userName : '',
+    firstName: firstName ? firstName : '',
+    lastName: lastName ? lastName : '',
+  });
 
   await saveMessage({
     userId: userId as number,
@@ -45,9 +45,17 @@ const message = () => async (ctx: Context) => {
 
   if (messageId) {
     if (userName) {
-      await replyToMessage(ctx, messageId, `Hello, ${userName}!`);
+      await replyToMessage(
+        ctx,
+        messageId,
+        `Hello, ${userName}!\nThis is the message you send: ${msg}`,
+      );
     } else {
-      await replyToMessage(ctx, messageId, `Hello, ${firstName} ${lastName}!`);
+      await replyToMessage(
+        ctx,
+        messageId,
+        `Hello, ${firstName} ${lastName}!\nThis is the message you send: ${msg}`,
+      );
     }
     // await replyToMessage(ctx, messageId, `Hello, ${userName}!`);
   }
