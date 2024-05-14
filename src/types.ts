@@ -39,7 +39,8 @@ export type TableName =
   | 'seller_orders'
   | 'store'
   | 'test'
-  | 'users';
+  | 'users'
+  | 'users_msgs';
 
 export const tableMap: Record<TableName, TableName> = {
   cart: 'cart',
@@ -50,4 +51,5 @@ export const tableMap: Record<TableName, TableName> = {
   store: 'store',
   test: 'test',
   users: 'users',
+  users_msgs: 'users_msgs',
 };

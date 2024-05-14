@@ -1,6 +1,6 @@
 import { Context } from 'telegraf';
 import createDebug from 'debug';
-import { fetchData, getOrCreateUser } from '@/supabase';
+import { fetchData, getOrCreateUser, saveMessage } from '@/supabase';
 
 const debug = createDebug('bot:greeting_text');
 
@@ -14,21 +14,43 @@ const replyToMessage = (ctx: Context, messageId: number, string: string) =>
 const message = () => async (ctx: Context) => {
   debug('Triggered "message" event');
   const userFrom = ctx.from;
+
   const userName = userFrom?.username;
   const firstName = userFrom?.first_name;
   const lastName = userFrom?.last_name;
+
   const userId = userFrom?.id;
+  const chatFromId = ctx.chat?.id;
+
   const messageId = ctx.message?.message_id;
 
-  await getOrCreateUser({
+  const msg = ctx.text;
+  console.log(msg);
+
+  // console.log(chatFromId);
+  // console.log(userId);
+
+  // await getOrCreateUser({
+  //   userId: userId as number,
+  //   userName: userName ? userName : '',
+  //   firstName: firstName ? firstName : '',
+  //   lastName: lastName ? lastName : '',
+  // });
+
+  await saveMessage({
     userId: userId as number,
-    userName: userName ? userName : '',
-    firstName: firstName ? firstName : '',
-    lastName: lastName ? lastName : '',
+    chatId: chatFromId as number,
+    message: msg as string,
   });
-  // if (messageId) {
-  //   await replyToMessage(ctx, messageId, `Hello, ${userName}!`);
-  // }
+
+  if (messageId) {
+    if (userName) {
+      await replyToMessage(ctx, messageId, `Hello, ${userName}!`);
+    } else {
+      await replyToMessage(ctx, messageId, `Hello, ${firstName} ${lastName}!`);
+    }
+    // await replyToMessage(ctx, messageId, `Hello, ${userName}!`);
+  }
 };
 
 export { message };

@@ -93,7 +93,7 @@ export async function getOrCreateUser({
         .insert([
           {
             user_id: userId,
-            username: userName ? userName : undefined,
+            user_name: userName ? userName : undefined,
             first_name: firstName ? firstName : undefined,
             last_name: lastName ? lastName : undefined,
           },
@@ -105,7 +105,7 @@ export async function getOrCreateUser({
       const { data: newUserRows, error: newUserRowsError } = await supabase
         .from(tableMap.users)
         .select('*')
-        .eq('user_id', userId)
+        .eq('user_tgid', userId)
         .single();
 
       if (newUserRowsError) {
@@ -117,44 +117,44 @@ export async function getOrCreateUser({
     logger.error('Error creating user:', error);
   }
 }
-// export async function getOrCreateChatUser(chatId: number, userId: number) {
-//   try {
-//     const { data: existingUser, error: userError } = await supabase
-//       .from(tableMap.chat_members)
-//       .select('*')
-//       .eq('chat_id', chatId)
-//       .eq('user_id', userId);
+export async function getOrCreateChatUser(chatId: number, userId: number) {
+  try {
+    const { data: existingUser, error: userError } = await supabase
+      .from(tableMap.users_msgs)
+      .select('*')
+      .eq('chat_id', chatId)
+      .eq('user_tgid', userId);
 
-//     if (userError) {
-//       throw userError;
-//     }
+    if (userError) {
+      throw userError;
+    }
 
-//     if (existingUser.length > 0) {
-//       return existingUser;
-//     } else {
-//       const { error: newUserError } = await supabase
-//         .from(tableMap.chat_members)
-//         .insert([{ chat_id: chatId, user_id: userId }])
-//         .single();
-//       console.log(newUserError);
-//       if (newUserError) {
-//         throw newUserError;
-//       }
-//       const { data: newUserRows, error: newUserRowsError } = await supabase
-//         .from('chat_members')
-//         .select('*')
-//         .eq('user_id', userId)
-//         .single();
+    if (existingUser.length > 0) {
+      return existingUser;
+    } else {
+      const { error: newUserError } = await supabase
+        .from(tableMap.users_msgs)
+        .insert([{ chat_id: chatId, user_tgid: userId }])
+        .single();
+      console.log(newUserError);
+      if (newUserError) {
+        throw newUserError;
+      }
+      const { data: newUserRows, error: newUserRowsError } = await supabase
+        .from(tableMap.users_msgs)
+        .select('*')
+        .eq('user_tgid', userId)
+        .single();
 
-//       if (newUserRowsError) {
-//         throw newUserRowsError;
-//       }
-//       return newUserRows;
-//     }
-//   } catch (error) {
-//     logger.error('Error creating user:', error);
-//   }
-// }
+      if (newUserRowsError) {
+        throw newUserRowsError;
+      }
+      return newUserRows;
+    }
+  } catch (error) {
+    logger.error('Error creating user:', error);
+  }
+}
 export async function inviteFromUser(userId: number, inviteFromId: number) {
   try {
     const { data, error } = await supabase
@@ -181,5 +181,28 @@ export async function fetchInviter(userId: string) {
     return data;
   } catch (error) {
     logger.error('Error fetching data:', error);
+  }
+}
+export async function saveMessage({
+  userId,
+  chatId,
+  message,
+}: {
+  userId: number;
+  chatId: number;
+  message?: string;
+}) {
+  try {
+    const { data, error } = await supabase.from(tableMap.users_msgs).insert({
+      user_tgid: userId,
+      chat_id: chatId,
+      message: message,
+    });
+    if (error) {
+      throw error;
+    }
+    console.log('Inserted data:', data);
+  } catch (error) {
+    logger.error('Error inserting data:', error);
   }
 }
