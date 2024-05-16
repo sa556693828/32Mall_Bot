@@ -25,7 +25,8 @@ const message = () => async (ctx: Context) => {
   const messageId = ctx.message?.message_id;
 
   const msg = ctx.text;
-  console.log(msg);
+  console.log('msg: ' + msg);
+  console.log(typeof msg);
 
   // console.log(chatFromId);
   // console.log(userId);
@@ -37,27 +38,44 @@ const message = () => async (ctx: Context) => {
     lastName: lastName ? lastName : '',
   });
 
-  await saveMessage({
-    userId: userId as number,
-    chatId: chatFromId as number,
-    message: msg as string,
-  });
+  if (msg != undefined) {
+    await saveMessage({
+      userId: userId as number,
+      chatId: chatFromId as number,
+      message: msg as string,
+    });
+  }
 
   if (messageId) {
     if (userName) {
-      await replyToMessage(
-        ctx,
-        messageId,
-        `Hello, ${userName}!\nThis is the message you send: ${msg}`,
-      );
+      if (msg === undefined) {
+        await replyToMessage(
+          ctx,
+          messageId,
+          `Hello, ${userName}!\n\nThe message type is undefined.`,
+        );
+      } else {
+        await replyToMessage(
+          ctx,
+          messageId,
+          `Hello, ${userName}!\n\nThis is the message you send: ${msg}`,
+        );
+      }
     } else {
-      await replyToMessage(
-        ctx,
-        messageId,
-        `Hello, ${firstName} ${lastName}!\nThis is the message you send: ${msg}`,
-      );
+      if (msg === undefined) {
+        await replyToMessage(
+          ctx,
+          messageId,
+          `Hello, ${firstName} ${lastName}!\n\nThe message type is undefined.`,
+        );
+      } else {
+        await replyToMessage(
+          ctx,
+          messageId,
+          `Hello, ${firstName} ${lastName}!\n\nThis is the message you send: ${msg}`,
+        );
+      }
     }
-    // await replyToMessage(ctx, messageId, `Hello, ${userName}!`);
   }
 };
 
