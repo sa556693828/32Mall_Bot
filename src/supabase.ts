@@ -35,6 +35,32 @@ export async function insertData(table_name: TableName, inputData: any) {
     logger.error('Error inserting data:', error);
   }
 }
+// 插入數據（選擇要存的東西）//尚未測試
+// export async function insertData(table_name: TableName, inputData: any) {
+//   try {
+//     const dataToInsert = {}; // 創建一個空的資料物件
+
+//     // 檢查 inputData 中的每個屬性，如果存在則將其添加到要插入的資料物件中
+//     if (inputData.id) {
+//       dataToInsert.id = inputData.id;
+//     }
+//     if (inputData.created_at) {
+//       dataToInsert.created_at = inputData.created_at;
+//     }
+//     if (inputData.email) {
+//       dataToInsert.email = inputData.email;
+//     }
+
+//     const { data, error } = await supabase.from(table).insert(dataToInsert);
+//     if (error) {
+//       throw error;
+//     }
+//     console.log('Inserted data:', data);
+//   } catch (error) {
+//     logger.error('Error inserting data:', error);
+//   }
+// }
+
 // 更新数据
 export async function updateData(table_name: TableName) {
   try {
@@ -201,7 +227,14 @@ export async function saveMessage({
     if (error) {
       throw error;
     }
-    console.log('Inserted data:', data);
+    console.log(
+      'Inserted data: userId: ' +
+        userId +
+        ' chatId: ' +
+        chatId +
+        ' message: ' +
+        message,
+    );
   } catch (error) {
     logger.error('Error inserting data:', error);
   }

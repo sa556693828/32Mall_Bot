@@ -28,8 +28,10 @@ const message = () => async (ctx: Context) => {
   console.log('msg: ' + msg);
   console.log(typeof msg);
 
-  // console.log(chatFromId);
-  // console.log(userId);
+  if (msg?.startsWith('/')) {
+    console.log('He just entered an undefined command.');
+  } else {
+  }
 
   await getOrCreateUser({
     userId: userId as number,
@@ -38,7 +40,7 @@ const message = () => async (ctx: Context) => {
     lastName: lastName ? lastName : '',
   });
 
-  if (msg != undefined) {
+  if (msg !== undefined && msg.startsWith && !msg.startsWith('/')) {
     await saveMessage({
       userId: userId as number,
       chatId: chatFromId as number,
