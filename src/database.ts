@@ -1,5 +1,5 @@
 // import mysql, { ResultSetHeader, RowDataPacket } from 'mysql2';
-// import logger from '@/logger';
+// import logger from '../logger';
 
 // // Create the connection pool. The pool-specific settings are the defaults
 // const pool = mysql.createPool({

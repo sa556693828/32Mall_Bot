@@ -1,4 +1,4 @@
-import logger from '@/logger';
+import logger from '../logger';
 import { createClient } from '@supabase/supabase-js';
 import { tableMap, TableName } from './types';
 const supabaseUrl = process.env.SUPABASE_URL!;
