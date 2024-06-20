@@ -1,5 +1,5 @@
-import logger from '../logger';
 import { createClient } from '@supabase/supabase-js';
+import logger from './logger';
 import { tableMap, TableName } from './types';
 const supabaseUrl = process.env.SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_ANON_KEY!;
