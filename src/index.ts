@@ -1,15 +1,5 @@
 import { Context, session, Telegraf } from 'telegraf';
-import {
-  about,
-  connect,
-  dailyTest,
-  help,
-  info,
-  invite,
-  mint,
-  start,
-  test,
-} from './commands';
+import { help, invite, start, info } from './commands';
 import { leftMem, message, newMem } from './event/index';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { development, production } from './core';
@@ -38,15 +28,10 @@ bot.use((ctx, next) => {
   });
 });
 
-bot.command('about', about());
-bot.command('connect', connect());
-bot.command('dailyTest', dailyTest());
 bot.command('help', help());
 bot.command('info', info());
 bot.command('invite', invite());
-bot.command('mint', mint());
 bot.command('start', start());
-bot.command('test', test());
 
 bot.on('message', message());
 //TODO: Check V5 寫法
