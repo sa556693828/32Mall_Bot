@@ -1,6 +1,6 @@
 import { Context } from 'telegraf';
 import createDebug from 'debug';
-import { fetchData } from '@/supabase';
+import { fetchData } from '../supabase';
 import { tableMap } from '@/types';
 
 const debug = createDebug('bot:greeting_text');

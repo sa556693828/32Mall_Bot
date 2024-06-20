@@ -1,6 +1,6 @@
 import { Context } from 'telegraf';
 import createDebug from 'debug';
-import { fetchData, getOrCreateUser, saveMessage } from '@/supabase';
+import { fetchData, getOrCreateUser, saveMessage } from '../supabase';
 
 const debug = createDebug('bot:greeting_text');
 
