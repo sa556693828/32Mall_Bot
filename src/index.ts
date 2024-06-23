@@ -1,5 +1,5 @@
 import { Context, session, Telegraf } from 'telegraf';
-import { help, invite, start, info } from './commands';
+import { help, invite, start, info, testURL } from './commands';
 import { leftMem, message, newMem } from './event/index';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { development, production } from './core';
@@ -32,6 +32,7 @@ bot.command('help', help());
 bot.command('info', info());
 bot.command('invite', invite());
 bot.command('start', start());
+bot.command('testurl', testURL());
 
 bot.on('message', message());
 //TODO: Check V5 寫法
